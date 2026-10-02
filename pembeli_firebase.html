@@ -22,212 +22,67 @@
             --radius: 16px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            color: var(--text-main);
-        }
-
-        #app {
-            width: 100%;
-            max-width: 480px;
-            background-color: var(--bg-app);
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            padding-bottom: 80px;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 16px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(226, 25, 55, 0.25);
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-body); display: flex; justify-content: center; min-height: 100vh; color: var(--text-main); }
+        
+        #app { width: 100%; max-width: 480px; background-color: var(--bg-app); min-height: 100vh; position: relative; display: flex; flex-direction: column; padding-bottom: 80px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        
+        header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 16px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(226, 25, 55, 0.25); }
         .header-title { font-size: 18px; font-weight: 800; }
         .header-sub { font-size: 11px; opacity: 0.9; margin-top: 2px; }
 
-        nav.bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 480px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 12px 0;
-            border-top: 1px solid var(--border);
-            z-index: 100;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 25%;
-            position: relative;
-        }
-
+        nav.bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px 0 12px 0; border-top: 1px solid var(--border); z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; border: none; background: none; width: 25%; position: relative; }
         .nav-item .icon { font-size: 20px; margin-bottom: 3px; }
         .nav-item.active { color: var(--primary); }
+        .badge { position: absolute; top: -4px; right: 16px; background: var(--primary); color: white; font-size: 10px; font-weight: 800; border-radius: 10px; padding: 2px 6px; }
 
-        .badge {
-            position: absolute;
-            top: -4px;
-            right: 16px;
-            background: var(--primary);
-            color: white;
-            font-size: 10px;
-            font-weight: 800;
-            border-radius: 10px;
-            padding: 2px 6px;
-        }
-
-        .screen {
-            display: none;
-            padding: 16px;
-            animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
+        .screen { display: none; padding: 16px; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title { font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 12px; }
-
-        .search-box {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
+        .section-title { font-size: 16px; font-weight: 800; margin-bottom: 12px; }
+        .search-box { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
         .search-box input { border: none; outline: none; width: 100%; font-size: 13px; }
 
         .grid-tenants { display: flex; flex-direction: column; gap: 12px; }
+        .tenant-card { background: var(--card-bg); border-radius: var(--radius); padding: 14px; border: 1px solid var(--border); display: flex; gap: 14px; align-items: center; cursor: pointer; }
+        .tenant-img { width: 58px; height: 58px; border-radius: 12px; background: #FEF2F2; display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; }
+        .tenant-name { font-weight: 800; font-size: 15px; }
+        .rating-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: #D97706; background: #FEF3C7; padding: 2px 8px; border-radius: 6px; margin-top: 4px; }
 
-        .tenant-card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 14px;
-            border: 1px solid var(--border);
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .tenant-img {
-            width: 58px; height: 58px;
-            border-radius: 12px;
-            background: #FEF2F2;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px; flex-shrink: 0;
-        }
-
-        .tenant-name { font-weight: 800; font-size: 15px; color: var(--text-main); }
-
-        .rating-tag {
-            display: inline-flex; align-items: center; gap: 4px;
-            font-size: 12px; font-weight: 700; color: #D97706;
-            background: #FEF3C7; padding: 2px 8px; border-radius: 6px; margin-top: 4px;
-        }
-
-        .menu-card {
-            background: white; border-radius: var(--radius);
-            padding: 14px; margin-bottom: 12px; border: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .menu-name { font-weight: 700; font-size: 14px; color: var(--text-main); }
+        .menu-card { background: white; border-radius: var(--radius); padding: 14px; margin-bottom: 12px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .menu-name { font-weight: 700; font-size: 14px; }
         .menu-price { color: var(--primary); font-weight: 800; font-size: 14px; margin-top: 4px; }
+        .btn-add { background: #FEF2F2; color: var(--primary); border: 1.5px solid var(--primary); padding: 8px 16px; border-radius: 10px; font-size: 12px; font-weight: 800; cursor: pointer; }
 
-        .btn-add {
-            background: #FEF2F2; color: var(--primary);
-            border: 1.5px solid var(--primary); padding: 8px 16px;
-            border-radius: 10px; font-size: 12px; font-weight: 800; cursor: pointer;
-        }
-
-        .form-group {
-            background: white; border-radius: 14px; padding: 14px;
-            margin-bottom: 14px; border: 1px solid var(--border);
-        }
-
-        .form-label { font-size: 12px; font-weight: 800; color: var(--text-main); margin-bottom: 6px; display: block; }
+        .form-group { background: white; border-radius: 14px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); }
+        .form-label { font-size: 12px; font-weight: 800; margin-bottom: 6px; display: block; }
         .form-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; }
-
+        
         .radio-group { display: flex; gap: 10px; margin-top: 6px; }
         .radio-btn { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; text-align: center; font-size: 12px; font-weight: 700; cursor: pointer; background: #F8FAFC; }
         .radio-btn.selected { border-color: var(--primary); background: #FEF2F2; color: var(--primary); }
 
-        .btn {
-            width: 100%; padding: 14px; background: var(--primary);
-            color: white; border: none; border-radius: var(--radius);
-            font-size: 14px; font-weight: 800; cursor: pointer;
-            box-shadow: 0 4px 12px rgba(226, 25, 55, 0.25);
-        }
-
+        .btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 800; cursor: pointer; }
         .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); box-shadow: none; }
         .btn-success { background: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); }
 
         .qris-card { background: white; border-radius: 20px; padding: 20px; text-align: center; border: 1px solid var(--border); margin-bottom: 16px; }
         .qris-img { width: 100%; max-width: 280px; border-radius: 12px; margin: 12px 0; border: 1px solid var(--border); }
 
-        .order-card { background: white; border-radius: var(--radius); padding: 16px; margin-bottom: 14px; border: 1px solid var(--border); }
-
+        .order-card { background: white; border-radius: var(--radius); padding: 16px; margin-bottom: 14px; border: 1px solid var(--border); cursor: pointer; transition: transform 0.1s; }
+        .order-card:active { transform: scale(0.98); }
         .status-badge { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
         .badge-diterima { background: #DBEAFE; color: #1E40AF; }
         .badge-diproses { background: #FEF3C7; color: #92400E; }
         .badge-siap { background: #D1FAE5; color: #065F46; }
         .badge-selesai { background: #F1F5F9; color: #475569; }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.65); display: none; justify-content: center;
-            align-items: center; z-index: 250; padding: 20px; backdrop-filter: blur(4px);
-        }
-
-        .modal-card { background: white; border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; }
-
-        .alarm-modal-card {
-            background: #FFF1F2; border: 3px solid var(--primary); text-align: center;
-            animation: alarmBounce 0.6s infinite alternate ease-in-out;
-        }
-
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: none; justify-content: center; align-items: center; z-index: 250; padding: 20px; backdrop-filter: blur(4px); }
+        .modal-card { background: white; border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
+        
+        .alarm-modal-card { background: #FFF1F2; border: 3px solid var(--primary); text-align: center; animation: alarmBounce 0.6s infinite alternate ease-in-out; }
         @keyframes alarmBounce { from { transform: scale(0.98); } to { transform: scale(1.02); } }
 
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
@@ -257,57 +112,58 @@
 
     <!-- SCREEN: MENU WARUNG -->
     <div class="screen" id="screen-menu">
-        <button class="btn btn-outline" style="padding:8px 14px; font-size:12px; margin-bottom:14px; width:auto;" onclick="switchScreen('warung')">
-            ⬅ Kembali
-        </button>
+        <button class="btn btn-outline" style="padding:8px 14px; font-size:12px; margin-bottom:14px; width:auto;" onclick="switchScreen('warung')">⬅ Kembali</button>
         <div id="warung-header-detail" style="margin-bottom:16px;"></div>
         <div class="section-title">Daftar Menu</div>
         <div id="menu-container"></div>
     </div>
 
-    <!-- SCREEN: KERANJANG -->
+    <!-- SCREEN: KERANJANG (Hanya List Makanan) -->
     <div class="screen" id="screen-keranjang">
-        <div class="section-title">Keranjang & Pemesan</div>
+        <div class="section-title">Keranjang Belanja</div>
         <div id="cart-container"></div>
-
-        <div id="cart-summary" style="display:none; margin-top:16px;">
-            <div class="form-group">
-                <label class="form-label">👤 Nama Pemesan <span style="color:var(--primary);">*</span></label>
-                <input type="text" id="buyer-name" class="form-input" placeholder="Masukkan nama Anda (misal: Budi)">
+        <div id="cart-footer" style="display:none; margin-top:16px;">
+            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-bottom:12px; padding: 0 10px;">
+                <span>Total Belanja</span><span id="cart-total-amount" style="color:var(--primary);">Rp 0</span>
             </div>
-
-            <div class="form-group">
-                <label class="form-label">🍽️ Tipe Pesanan</label>
-                <div class="radio-group">
-                    <div class="radio-btn selected" id="opt-dinein" onclick="selectType('Dine-in')">Makan di Tempat</div>
-                    <div class="radio-btn" id="opt-takeaway" onclick="selectType('Takeaway')">Bawa Pulang</div>
-                </div>
-
-                <div id="table-no-box" style="margin-top:12px;">
-                    <label class="form-label">🪑 Nomor Meja <span style="color:var(--primary);">*</span></label>
-                    <input type="number" id="buyer-table" class="form-input" placeholder="Nomor meja (misal: 12)">
-                </div>
-            </div>
-
-            <div style="background:white; padding:14px; border-radius:14px; border:1px solid var(--border); margin-bottom:16px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:var(--text-muted);">
-                    <span>Subtotal</span><span id="cart-subtotal">Rp 0</span>
-                </div>
-                <hr style="border:none; border-top:1px dashed var(--border); margin:10px 0;">
-                <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px;">
-                    <span>Total Tagihan</span><span id="cart-total-amount" style="color:var(--primary);">Rp 0</span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="goToPayment()">Lanjut Pembayaran QRIS 💳</button>
+            <button class="btn" onclick="switchScreen('checkout')">Pesan Sekarang 🚀</button>
         </div>
+    </div>
+
+    <!-- SCREEN: CHECKOUT (Isi Form) -->
+    <div class="screen" id="screen-checkout">
+        <button class="btn btn-outline" style="padding:8px 14px; font-size:12px; margin-bottom:14px; width:auto;" onclick="switchScreen('keranjang')">⬅ Kembali ke Keranjang</button>
+        <div class="section-title">Detail Pemesanan</div>
+        
+        <div class="form-group">
+            <label class="form-label">👤 Nama Pemesan <span style="color:var(--primary);">*</span></label>
+            <input type="text" id="buyer-name" class="form-input" placeholder="Masukkan nama Anda (misal: Budi)">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">📝 Catatan untuk Dapur (Opsional)</label>
+            <input type="text" id="buyer-notes" class="form-input" placeholder="Misal: Jangan pakai seledri, kuah dipisah">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">🍽️ Tipe Pesanan</label>
+            <div class="radio-group">
+                <div class="radio-btn selected" id="opt-dinein" onclick="selectType('Dine-in')">Makan di Tempat</div>
+                <div class="radio-btn" id="opt-takeaway" onclick="selectType('Takeaway')">Bawa Pulang</div>
+            </div>
+
+            <div id="table-no-box" style="margin-top:12px;">
+                <label class="form-label">🪑 Nomor Meja <span style="color:var(--primary);">*</span></label>
+                <input type="number" id="buyer-table" class="form-input" placeholder="Nomor meja (misal: 12)">
+            </div>
+        </div>
+
+        <button class="btn" onclick="goToPayment()">Lanjut Pembayaran QRIS 💳</button>
     </div>
 
     <!-- SCREEN: QRIS -->
     <div class="screen" id="screen-qris">
-        <button class="btn btn-outline" style="padding:8px 14px; font-size:12px; margin-bottom:14px; width:auto;" onclick="switchScreen('keranjang')">
-            ⬅ Kembali
-        </button>
+        <button class="btn btn-outline" style="padding:8px 14px; font-size:12px; margin-bottom:14px; width:auto;" onclick="switchScreen('checkout')">⬅ Kembali</button>
         <div class="qris-card">
             <h3 style="color:var(--primary); font-size:18px;">QRIS ADT BAL</h3>
             <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">NMID: ID1026550823011 | A01</p>
@@ -327,29 +183,24 @@
     <!-- SCREEN: RIWAYAT -->
     <div class="screen" id="screen-riwayat">
         <div class="section-title">Riwayat Pesanan Selesai</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Klik pesanan untuk melihat detail bon/struk.</div>
         <div id="history-orders-container">Belum ada riwayat</div>
     </div>
 
     <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
-        <button class="nav-item active" id="nav-warung" onclick="switchScreen('warung')">
-            <span class="icon">🏪</span><span>Warung</span>
-        </button>
+        <button class="nav-item active" id="nav-warung" onclick="switchScreen('warung')"><span class="icon">🏪</span><span>Warung</span></button>
         <button class="nav-item" id="nav-keranjang" onclick="switchScreen('keranjang')">
-            <span class="icon">🛒</span><span>Keranjang</span>
-            <span class="badge" id="badge-cart" style="display:none;">0</span>
+            <span class="icon">🛒</span><span>Keranjang</span><span class="badge" id="badge-cart" style="display:none;">0</span>
         </button>
         <button class="nav-item" id="nav-proses" onclick="switchScreen('proses')">
-            <span class="icon">⏳</span><span>Proses</span>
-            <span class="badge" id="badge-proses" style="display:none;">0</span>
+            <span class="icon">⏳</span><span>Proses</span><span class="badge" id="badge-proses" style="display:none;">0</span>
         </button>
-        <button class="nav-item" id="nav-riwayat" onclick="switchScreen('riwayat')">
-            <span class="icon">📜</span><span>Riwayat</span>
-        </button>
+        <button class="nav-item" id="nav-riwayat" onclick="switchScreen('riwayat')"><span class="icon">📜</span><span>Riwayat</span></button>
     </nav>
 </div>
 
-<!-- MODAL OPTIONS -->
+<!-- MODAL OPTIONS (Add to Cart) -->
 <div class="modal-overlay" id="menu-options-modal">
     <div class="modal-card">
         <h3 id="opt-modal-title" style="font-size:16px; margin-bottom:4px;">Pilih Opsi</h3>
@@ -362,23 +213,59 @@
     </div>
 </div>
 
+<!-- MODAL DETAIL PESANAN -->
+<div class="modal-overlay" id="order-detail-modal">
+    <div class="modal-card">
+        <h3 style="font-size:16px; margin-bottom:4px; text-align:center;">Struk Pesanan</h3>
+        <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-bottom:16px;" id="detail-date"></div>
+        
+        <div style="background:#F8FAFC; padding:12px; border-radius:12px; border:1px solid var(--border); font-size:13px; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:var(--text-muted);">No Order</span><strong id="detail-id"></strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:var(--text-muted);">Pemesan</span><strong id="detail-name"></strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:var(--text-muted);">Tipe</span><strong id="detail-type"></strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;" id="detail-table-box">
+                <span style="color:var(--text-muted);">No Meja</span><strong id="detail-table"></strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted);">Status</span><strong id="detail-status" style="color:var(--primary);"></strong>
+            </div>
+            <hr style="border:none; border-top:1px dashed var(--border); margin:10px 0;">
+            <div style="color:var(--text-muted); font-size:11px;">Catatan:</div>
+            <div id="detail-notes" style="font-weight:700; font-style:italic;">-</div>
+        </div>
+
+        <div style="font-size:12px; font-weight:800; margin-bottom:8px;">Daftar Pesanan:</div>
+        <div id="detail-items" style="font-size:12px; margin-bottom:16px; line-height:1.6;"></div>
+
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-bottom:20px;">
+            <span>Total</span><span id="detail-total" style="color:var(--primary);"></span>
+        </div>
+
+        <button class="btn btn-outline" onclick="closeDetailModal()">Tutup</button>
+    </div>
+</div>
+
 <!-- MODAL ALARM -->
 <div class="modal-overlay" id="alarm-modal">
     <div class="modal-card alarm-modal-card">
         <div style="font-size:50px; margin-bottom:10px;">📢🔔</div>
         <h2 style="color:var(--primary); font-size:20px; margin-bottom:6px;">PESANAN SIAP DIAMBIL!</h2>
-        <p style="font-size:13px; font-weight:700;" id="alarm-order-info">Order #TELU-1234</p>
-        <p style="font-size:12px; color:var(--text-muted); margin:6px 0 16px 0;">
-            Silakan ambil pesanan Anda di counter dapur. Tekan tombol di bawah untuk mematikan alarm.
-        </p>
+        <p style="font-size:13px; font-weight:700;" id="alarm-order-info"></p>
+        <p style="font-size:12px; color:var(--text-muted); margin:6px 0 16px 0;">Silakan ambil pesanan Anda di counter dapur. Tekan tombol di bawah untuk mematikan alarm.</p>
         <button class="btn btn-success" style="font-size:14px; padding:16px;" onclick="stopAlarmAndComplete()">
-            🛑 Matikan Alarm & Selesaikan Pesanan
+            🛑 Matikan Alarm & Selesai
         </button>
     </div>
 </div>
 
 <script>
-    // ⚙️ FIREBASE CONFIG MILIK ANDA (kantin-telu) ⚙️
+    // ⚙️ FIREBASE CONFIG
     const firebaseConfig = {
   apiKey: "AIzaSyDEfWlPocqoyTTLGkhertkIf8jXaaG86F8",
   authDomain: "kantin-telu.firebaseapp.com",
@@ -393,27 +280,57 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // Fix Audio Autoplay Policy
+    let audioCtx = null;
+    let alarmAudioInterval = null;
+
+    function initAudioContext() {
+        if(!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if(audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }
+    // Minta izin audio saat layar disentuh pertama kali
+    document.body.addEventListener('click', initAudioContext, { once: false });
+    document.body.addEventListener('touchstart', initAudioContext, { once: false });
+
+    // Menambah Tenant & Menu agar terlihat lebih keren
     const tenantsData = [
         {
             id: 'adt-bal', name: 'ADT BAL (Geprek & Sambal)', icon: '🍗', rating: 4.9, prepTime: '10-15 Min',
             menus: [
                 { id: 'a1', name: 'Ayam Geprek Sambal Korek', price: 18000, type: 'food' },
                 { id: 'a2', name: 'Ayam Geprek Keju Mozzarella', price: 22000, type: 'food' },
-                { id: 'a3', name: 'Es Teh Manis Jumbo', price: 5000, type: 'drink' }
+                { id: 'a3', name: 'Paket Geprek + Nasi + Es Teh', price: 25000, type: 'food' },
+                { id: 'a4', name: 'Kulit Ayam Crispy', price: 12000, type: 'food' }
             ]
         },
         {
             id: 'sunda-tatang', name: 'Nasi Sunda Bu Hj. Tatang', icon: '🍛', rating: 4.8, prepTime: '12-18 Min',
             menus: [
                 { id: 's1', name: 'Nasi Tutug Oncom Ayam Bakar', price: 23000, type: 'food' },
-                { id: 's2', name: 'Es Kelapa Muda Gula Aren', price: 8000, type: 'drink' }
+                { id: 's2', name: 'Nasi Timbel Komplit (Empal)', price: 28000, type: 'food' },
+                { id: 's3', name: 'Sayur Asem Segar', price: 10000, type: 'food' },
+                { id: 's4', name: 'Tahu / Tempe Goreng', price: 3000, type: 'food' }
             ]
         },
         {
             id: 'kantin-tante', name: 'Kantin Tante & Mie Dok-Dok', icon: '🍜', rating: 4.7, prepTime: '10-15 Min',
             menus: [
                 { id: 't1', name: 'Mie Dok-Dok Pedas Telur', price: 15000, type: 'food' },
-                { id: 't2', name: 'Es Extra Joss Susu', price: 7000, type: 'drink' }
+                { id: 't2', name: 'Nasi Gila Sosis Bakso', price: 18000, type: 'food' },
+                { id: 't3', name: 'Roti Bakar Coklat Keju', price: 12000, type: 'food' }
+            ]
+        },
+        {
+            id: 'kopi-telu', name: 'Warkop & Minuman Segar Tel-U', icon: '☕', rating: 4.9, prepTime: '5-10 Min',
+            menus: [
+                { id: 'k1', name: 'Es Kopi Susu Aren', price: 15000, type: 'drink' },
+                { id: 'k2', name: 'Matcha Latte Ice', price: 16000, type: 'drink' },
+                { id: 'k3', name: 'Es Teh Manis Jumbo', price: 5000, type: 'drink' },
+                { id: 'k4', name: 'Es Extra Joss Susu', price: 7000, type: 'drink' }
             ]
         }
     ];
@@ -425,8 +342,6 @@
     let selectedMenuItem = null;
     let orderType = 'Dine-in';
     let currentOptions = {};
-    let alarmAudioInterval = null;
-    let audioCtx = null;
 
     function switchScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -453,7 +368,7 @@
 
     function renderWarung(filter = '') {
         const container = document.getElementById('tenant-container');
-        const filtered = tenantsData.filter(t => t.name.toLowerCase().includes(filter));
+        const filtered = tenantsData.filter(t => t.name.toLowerCase().includes(filter) || t.menus.some(m => m.name.toLowerCase().includes(filter)));
         
         container.innerHTML = filtered.map(t => `
             <div class="tenant-card" onclick="openMenu('${t.id}')">
@@ -461,7 +376,7 @@
                 <div>
                     <div class="tenant-name">${t.name}</div>
                     <span class="rating-tag">★ ${t.rating}</span>
-                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">⏱️ ${t.prepTime}</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">⏱️ ${t.prepTime} • ${t.menus.length} Menu</div>
                 </div>
             </div>
         `).join('');
@@ -539,19 +454,15 @@
         el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
     }
-
-    function closeOptionsModal() {
-        document.getElementById('menu-options-modal').style.display = 'none';
-    }
+    function closeOptionsModal() { document.getElementById('menu-options-modal').style.display = 'none'; }
 
     function confirmAddToCart() {
         const optString = Object.values(currentOptions).join(', ');
         const cartItemId = selectedMenuItem.id + '_' + optString;
 
         const exist = cart.find(i => i.cartItemId === cartItemId);
-        if(exist) {
-            exist.qty += 1;
-        } else {
+        if(exist) exist.qty += 1;
+        else {
             cart.push({
                 cartItemId, id: selectedMenuItem.id, name: selectedMenuItem.name,
                 price: selectedMenuItem.price, tenantName: selectedTenant.name,
@@ -560,7 +471,7 @@
         }
         localStorage.setItem('telu_online_cart', JSON.stringify(cart));
         closeOptionsModal();
-        alert(`"${selectedMenuItem.name}" (${optString}) ditambahkan ke keranjang!`);
+        alert(`"${selectedMenuItem.name}" ditambahkan ke keranjang!`);
         updateBadges();
     }
 
@@ -575,7 +486,7 @@
         const container = document.getElementById('cart-container');
         if(cart.length === 0) {
             container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">🛒 Keranjang Belanja Kosong</div>`;
-            document.getElementById('cart-summary').style.display = 'none';
+            document.getElementById('cart-footer').style.display = 'none';
             return;
         }
 
@@ -600,9 +511,8 @@
             `;
         }).join('');
 
-        document.getElementById('cart-subtotal').innerText = formatRp(total);
         document.getElementById('cart-total-amount').innerText = formatRp(total);
-        document.getElementById('cart-summary').style.display = 'block';
+        document.getElementById('cart-footer').style.display = 'block';
     }
 
     function changeQty(cartItemId, delta) {
@@ -619,7 +529,6 @@
     function goToPayment() {
         const buyerName = document.getElementById('buyer-name').value.trim();
         const buyerTable = document.getElementById('buyer-table').value.trim();
-
         if(!buyerName) return alert('Mohon isi nama Anda!');
         if(orderType === 'Dine-in' && !buyerTable) return alert('Mohon isi nomor meja Anda!');
         switchScreen('qris');
@@ -632,17 +541,18 @@
 
     function confirmPaymentOnline() {
         if(cart.length === 0) return;
-
         const buyerName = document.getElementById('buyer-name').value.trim();
         const buyerTable = document.getElementById('buyer-table').value.trim();
+        const buyerNotes = document.getElementById('buyer-notes').value.trim() || '-';
         const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
 
         const newOrderData = {
             id: 'TELU-' + Math.floor(1000 + Math.random()*9000),
-            date: new Date().toLocaleString('id-ID'),
+            date: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }),
             buyerName,
             buyerTable: orderType === 'Dine-in' ? buyerTable : '-',
             type: orderType,
+            notes: buyerNotes,
             merchant: cart[0].tenantName || 'Kantin Tel-U',
             items: cart,
             total: total,
@@ -655,9 +565,9 @@
         localStorage.setItem('my_active_order_key', myActiveKey);
         newRef.set(newOrderData);
 
-        cart = [];
-        localStorage.removeItem('telu_online_cart');
-        alert('🎉 Pembayaran Berhasil! Pesanan Anda telah dikirim secara online ke Dapur.');
+        cart = []; localStorage.removeItem('telu_online_cart');
+        document.getElementById('buyer-notes').value = '';
+        alert('🎉 Pembayaran Berhasil! Pesanan dikirim ke Dapur.');
         switchScreen('proses');
     }
 
@@ -678,12 +588,12 @@
 
         const o = onlineOrders[myActiveKey];
         if(o.status === 'SELESAI') {
-            container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">Pesanan Anda #${o.id} telah selesai ✅</div>`;
+            container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">Pesanan Anda #${o.id} telah selesai ✅<br><br><button class="btn btn-outline" onclick="switchScreen('riwayat')">Lihat Riwayat</button></div>`;
             return;
         }
 
         container.innerHTML = `
-            <div class="order-card">
+            <div class="order-card" onclick="showOrderDetail('${myActiveKey}')">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <div>
                         <strong style="font-size:14px;">#${o.id} (${o.buyerName})</strong>
@@ -692,12 +602,64 @@
                     <span class="status-badge badge-${o.status.toLowerCase()}">${o.status}</span>
                 </div>
                 <div style="font-size:12px; background:#F8FAFC; padding:10px; border-radius:10px; margin-bottom:12px;">
-                    ${o.items.map(i => `• <b>${i.qty}x</b> ${i.name} <span style="color:var(--primary);">(${i.options})</span>`).join('<br>')}
+                    ${o.items.map(i => `• <b>${i.qty}x</b> ${i.name}`).join('<br>')}
                 </div>
                 <div style="font-size:13px; font-weight:800; color:var(--primary);">Total: ${formatRp(o.total)}</div>
+                <div style="font-size:10px; color:var(--text-muted); text-align:center; margin-top:8px;">(Klik untuk lihat struk)</div>
             </div>
         `;
     }
+
+    function renderRiwayatPemesanan() {
+        const container = document.getElementById('history-orders-container');
+        const keys = Object.keys(onlineOrders);
+        const list = keys.filter(k => onlineOrders[k].status === 'SELESAI').map(k => ({ key: k, ...onlineOrders[k] }));
+        list.sort((a, b) => b.timestamp - a.timestamp); // Urutkan terbaru
+
+        if(list.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">Belum ada riwayat pesanan selesai</div>`;
+            return;
+        }
+
+        container.innerHTML = list.map(o => `
+            <div class="order-card" style="border-left:4px solid var(--success);" onclick="showOrderDetail('${o.key}')">
+                <div style="display:flex; justify-content:space-between;">
+                    <strong>#${o.id} (${o.buyerName})</strong>
+                    <span class="status-badge badge-selesai">SELESAI</span>
+                </div>
+                <div style="font-size:11px; color:var(--text-muted); margin:4px 0;">📅 ${o.date}</div>
+                <div style="font-size:12px; color:var(--text-muted); margin:6px 0;">${o.items.map(i => i.qty + 'x ' + i.name).join(', ')}</div>
+                <div style="font-weight:800; font-size:13px; color:var(--primary);">${formatRp(o.total)}</div>
+            </div>
+        `).join('');
+    }
+
+    // Tampilkan Detail Pesanan (Struk)
+    function showOrderDetail(key) {
+        const o = onlineOrders[key];
+        if(!o) return;
+
+        document.getElementById('detail-date').innerText = o.date;
+        document.getElementById('detail-id').innerText = '#' + o.id;
+        document.getElementById('detail-name').innerText = o.buyerName;
+        document.getElementById('detail-type').innerText = o.type;
+        document.getElementById('detail-table').innerText = o.buyerTable;
+        document.getElementById('detail-table-box').style.display = o.type === 'Dine-in' ? 'flex' : 'none';
+        document.getElementById('detail-status').innerText = o.status;
+        document.getElementById('detail-notes').innerText = o.notes || '-';
+        
+        document.getElementById('detail-items').innerHTML = o.items.map(i => `
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span>${i.qty}x ${i.name} <br><span style="font-size:10px; color:var(--text-muted);">${i.options}</span></span>
+                <span>${formatRp(i.price * i.qty)}</span>
+            </div>
+        `).join('');
+        
+        document.getElementById('detail-total').innerText = formatRp(o.total);
+        document.getElementById('order-detail-modal').style.display = 'flex';
+    }
+
+    function closeDetailModal() { document.getElementById('order-detail-modal').style.display = 'none'; }
 
     function checkAlarmCondition() {
         if(myActiveKey && onlineOrders[myActiveKey]) {
@@ -712,8 +674,8 @@
 
     function startAlarmSound() {
         if(alarmAudioInterval) return;
+        initAudioContext(); // Pastikan aktif
         try {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             alarmAudioInterval = setInterval(() => {
                 if(!audioCtx) return;
                 const osc = audioCtx.createOscillator();
@@ -726,7 +688,7 @@
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.3);
             }, 500);
-        } catch(e) {}
+        } catch(e) { console.log("Audio block by browser"); }
     }
 
     function stopAlarmAndComplete() {
@@ -741,26 +703,6 @@
         }
     }
 
-    function renderRiwayatPemesanan() {
-        const container = document.getElementById('history-orders-container');
-        const list = Object.values(onlineOrders).filter(o => o.status === 'SELESAI');
-        if(list.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">Belum ada riwayat pesanan selesai</div>`;
-            return;
-        }
-
-        container.innerHTML = list.map(o => `
-            <div class="order-card" style="border-left:4px solid var(--success);">
-                <div style="display:flex; justify-content:space-between;">
-                    <strong>#${o.id} (${o.buyerName})</strong>
-                    <span class="status-badge badge-selesai">SELESAI</span>
-                </div>
-                <div style="font-size:12px; color:var(--text-muted); margin:6px 0;">${o.items.map(i => i.qty + 'x ' + i.name).join(', ')}</div>
-                <div style="font-weight:800; font-size:13px; color:var(--primary);">${formatRp(o.total)}</div>
-            </div>
-        `).join('');
-    }
-
     function updateBadges() {
         const cartB = document.getElementById('badge-cart');
         const count = cart.reduce((s, i) => s + i.qty, 0);
@@ -768,7 +710,6 @@
         cartB.innerText = count;
     }
 
-    // Init
     switchScreen('warung');
 </script>
 </body>

@@ -8,45 +8,12 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        :root {
-            --primary: #E21937;
-            --primary-dark: #B80E26;
-            --bg-body: #1E272C;
-            --bg-app: #F8FAFC;
-            --card-bg: #FFFFFF;
-            --text-main: #1E293B;
-            --text-muted: #64748B;
-            --border: #E2E8F0;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --radius: 16px;
-        }
-
-        * {
-            box-sizing: border-box; margin: 0; padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            display: flex; justify-content: center; align-items: flex-start;
-            min-height: 100vh; color: var(--text-main);
-        }
-
-        #app {
-            width: 100%; max-width: 500px; background-color: var(--bg-app);
-            min-height: 100vh; position: relative; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); padding-bottom: 30px;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; padding: 18px 20px; position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 20px rgba(226, 25, 55, 0.25);
-        }
-
+        :root { --primary: #E21937; --primary-dark: #B80E26; --bg-body: #1E272C; --bg-app: #F8FAFC; --card-bg: #FFFFFF; --text-main: #1E293B; --text-muted: #64748B; --border: #E2E8F0; --success: #10B981; --warning: #F59E0B; --radius: 16px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-body); display: flex; justify-content: center; min-height: 100vh; color: var(--text-main); }
+        #app { width: 100%; max-width: 500px; background-color: var(--bg-app); min-height: 100vh; position: relative; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); padding-bottom: 30px; }
+        
+        header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 18px 20px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(226, 25, 55, 0.25); }
         .store-profile { display: flex; gap: 12px; align-items: center; }
         .store-avatar { width: 46px; height: 46px; background: white; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
         .store-title { font-size: 16px; font-weight: 800; }
@@ -61,11 +28,10 @@
         .tab-bar { display: flex; background: #E2E8F0; margin: 0 16px 16px 16px; padding: 4px; border-radius: 12px; }
         .tab-btn { flex: 1; padding: 10px; background: none; border: none; color: var(--text-muted); font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; }
         .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-
         .tab-content { display: none; padding: 0 16px; }
         .tab-content.active { display: block; }
 
-        .order-card { background: white; border-radius: var(--radius); padding: 16px; margin-bottom: 14px; border: 1px solid var(--border); }
+        .order-card { background: white; border-radius: var(--radius); padding: 16px; margin-bottom: 14px; border: 1px solid var(--border); cursor: pointer; }
         .status-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
         .status-diterima { background: #DBEAFE; color: #1E40AF; }
         .status-diproses { background: #FEF3C7; color: #92400E; }
@@ -73,10 +39,13 @@
         .status-selesai { background: #F1F5F9; color: #475569; }
 
         .order-items-box { background: #F8FAFC; border-radius: 10px; padding: 12px; margin: 12px 0; font-size: 12px; border: 1px solid var(--border); }
-
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; color: white; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; color: white; margin-top: 8px; }
         .btn-process { background: var(--warning); color: #78350F; }
         .btn-ready { background: var(--success); color: white; }
+        .btn-outline { background: transparent; color: var(--text-muted); border: 1px solid var(--border); padding: 8px; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: none; justify-content: center; align-items: center; z-index: 250; padding: 20px; backdrop-filter: blur(4px); }
+        .modal-card { background: white; border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -89,7 +58,6 @@
                 <div class="store-subtitle">Sistem Live Dapur (kantin-telu)</div>
             </div>
         </div>
-        <div style="background:#FEF3C7; color:#D97706; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:800;">★ 4.9</div>
     </header>
 
     <div class="metrics-grid">
@@ -117,12 +85,48 @@
     </div>
 
     <div class="tab-content" id="tab-riwayat">
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; text-align:center;">Klik pesanan untuk melihat detail bon/struk.</div>
         <div id="history-orders-list">Belum ada transaksi selesai</div>
     </div>
 </div>
 
+<!-- MODAL DETAIL PESANAN (Penjual) -->
+<div class="modal-overlay" id="order-detail-modal">
+    <div class="modal-card">
+        <h3 style="font-size:16px; margin-bottom:4px; text-align:center;">Detail Transaksi</h3>
+        <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-bottom:16px;" id="detail-date"></div>
+        
+        <div style="background:#F8FAFC; padding:12px; border-radius:12px; border:1px solid var(--border); font-size:13px; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:var(--text-muted);">No Order</span><strong id="detail-id"></strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:var(--text-muted);">Pemesan</span><strong id="detail-name"></strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:var(--text-muted);">Tipe</span><strong id="detail-type"></strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;" id="detail-table-box">
+                <span style="color:var(--text-muted);">No Meja</span><strong id="detail-table"></strong>
+            </div>
+            <hr style="border:none; border-top:1px dashed var(--border); margin:10px 0;">
+            <div style="color:var(--text-muted); font-size:11px;">Catatan Pelanggan:</div>
+            <div id="detail-notes" style="font-weight:700; font-style:italic; color:#92400E;">-</div>
+        </div>
+
+        <div style="font-size:12px; font-weight:800; margin-bottom:8px;">Item Pesanan:</div>
+        <div id="detail-items" style="font-size:12px; margin-bottom:16px; line-height:1.6;"></div>
+
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-bottom:20px;">
+            <span>Pendapatan</span><span id="detail-total" style="color:var(--success);"></span>
+        </div>
+
+        <button class="btn btn-outline" onclick="closeDetailModal()">Tutup</button>
+    </div>
+</div>
+
 <script>
-    // ⚙️ FIREBASE CONFIG MILIK ANDA (kantin-telu) ⚙️
+    // ⚙️ FIREBASE CONFIG
     const firebaseConfig = {
   apiKey: "AIzaSyDEfWlPocqoyTTLGkhertkIf8jXaaG86F8",
   authDomain: "kantin-telu.firebaseapp.com",
@@ -136,7 +140,6 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
     let onlineOrders = {};
 
     function formatRp(num) { return 'Rp ' + (num || 0).toLocaleString('id-ID'); }
@@ -144,7 +147,6 @@
     function switchTab(tabId) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
         document.getElementById(`tab-btn-${tabId}`).classList.add('active');
         document.getElementById(`tab-${tabId}`).classList.add('active');
 
@@ -174,6 +176,7 @@
         const container = document.getElementById('active-orders-list');
         const keys = Object.keys(onlineOrders);
         const activeKeys = keys.filter(k => onlineOrders[k].status !== 'SELESAI');
+        activeKeys.sort((a,b) => onlineOrders[a].timestamp - onlineOrders[b].timestamp); // Yg terlama diatas
 
         if(activeKeys.length === 0) {
             container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">Belum ada pesanan masuk</div>`;
@@ -185,23 +188,26 @@
             let actionBtn = '';
 
             if(o.status === 'DITERIMA') {
-                actionBtn = `<button class="btn btn-process" onclick="updateOrderStatus('${key}', 'DIPROSES')">Terima & Mulai Masak 🍳</button>`;
+                actionBtn = `<button class="btn btn-process" onclick="event.stopPropagation(); updateOrderStatus('${key}', 'DIPROSES')">Terima & Mulai Masak 🍳</button>`;
             } else if(o.status === 'DIPROSES') {
-                actionBtn = `<button class="btn btn-ready" onclick="updateOrderStatus('${key}', 'SIAP')">Tandai SIAP DIAMBIL (Bunyikan Alarm) 📢</button>`;
+                actionBtn = `<button class="btn btn-ready" onclick="event.stopPropagation(); updateOrderStatus('${key}', 'SIAP')">Tandai SIAP DIAMBIL (Bunyikan Alarm) 📢</button>`;
             } else if(o.status === 'SIAP') {
-                actionBtn = `<div style="background:#FEF3C7; color:#92400E; padding:10px; text-align:center; border-radius:8px; font-size:12px; font-weight:800;">🔔 Alarm sedang berbunyi di HP Pembeli...</div>`;
+                actionBtn = `<div style="background:#FEF3C7; color:#92400E; padding:10px; text-align:center; border-radius:8px; font-size:12px; font-weight:800; margin-top:8px;">🔔 Alarm berbunyi di HP Pembeli...<br>Menunggu Pembeli konfirmasi selesai.</div>`;
             }
 
             return `
-                <div class="order-card">
+                <div class="order-card" onclick="showOrderDetail('${key}')">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <strong style="font-size:15px;">Order #${o.id}</strong>
                             <div style="font-size:12px; font-weight:700; color:var(--primary); margin-top:2px;">👤 ${o.buyerName}</div>
-                            <div style="font-size:11px; color:var(--text-muted);">${o.type} ${o.type==='Dine-in'?'(Meja #'+o.buyerTable+')':'(Bawa Pulang)'} • ${o.merchant}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">${o.date}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">${o.type} ${o.type==='Dine-in'?'(Meja #'+o.buyerTable+')':'(Bawa Pulang)'}</div>
                         </div>
                         <span class="status-pill status-${o.status.toLowerCase()}">${o.status}</span>
                     </div>
+
+                    ${o.notes && o.notes !== '-' ? `<div style="background:#FEF3C7; color:#92400E; padding:8px; border-radius:6px; font-size:11px; font-weight:700; margin-top:10px;">📝 Catatan: ${o.notes}</div>` : ''}
 
                     <div class="order-items-box">
                         ${(o.items || []).map(i => `• <b>${i.qty}x</b> ${i.name} <span style="color:var(--primary);">(${i.options})</span>`).join('<br>')}
@@ -218,31 +224,59 @@
         }).join('');
     }
 
-    function updateOrderStatus(key, newStatus) {
-        db.ref(`orders/${key}`).update({ status: newStatus });
-    }
+    function updateOrderStatus(key, newStatus) { db.ref(`orders/${key}`).update({ status: newStatus }); }
 
     function renderRiwayatOmset() {
         const container = document.getElementById('history-orders-list');
-        const completed = Object.values(onlineOrders).filter(o => o.status === 'SELESAI');
+        const keys = Object.keys(onlineOrders);
+        const completedKeys = keys.filter(k => onlineOrders[k].status === 'SELESAI');
+        completedKeys.sort((a,b) => onlineOrders[b].timestamp - onlineOrders[a].timestamp); // Terbaru di atas
 
-        if(completed.length === 0) {
+        if(completedKeys.length === 0) {
             container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">Belum ada transaksi selesai</div>`;
             return;
         }
 
-        container.innerHTML = completed.map(o => `
-            <div class="order-card" style="border-left:4px solid var(--success);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <strong>Order #${o.id} (${o.buyerName})</strong>
-                        <div style="font-size:11px; color:var(--text-muted);">${o.date} • ${o.type}</div>
+        container.innerHTML = completedKeys.map(key => {
+            const o = onlineOrders[key];
+            return `
+                <div class="order-card" style="border-left:4px solid var(--success);" onclick="showOrderDetail('${key}')">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong>Order #${o.id} (${o.buyerName})</strong>
+                            <div style="font-size:11px; color:var(--text-muted);">${o.date} • ${o.type}</div>
+                        </div>
+                        <strong style="color:var(--success); font-size:15px;">+${formatRp(o.total)}</strong>
                     </div>
-                    <strong style="color:var(--success); font-size:15px;">+${formatRp(o.total)}</strong>
                 </div>
+            `;
+        }).join('');
+    }
+
+    function showOrderDetail(key) {
+        const o = onlineOrders[key];
+        if(!o) return;
+
+        document.getElementById('detail-date').innerText = o.date;
+        document.getElementById('detail-id').innerText = '#' + o.id;
+        document.getElementById('detail-name').innerText = o.buyerName;
+        document.getElementById('detail-type').innerText = o.type;
+        document.getElementById('detail-table').innerText = o.buyerTable;
+        document.getElementById('detail-table-box').style.display = o.type === 'Dine-in' ? 'flex' : 'none';
+        document.getElementById('detail-notes').innerText = o.notes || '-';
+        
+        document.getElementById('detail-items').innerHTML = (o.items || []).map(i => `
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span>${i.qty}x ${i.name} <br><span style="font-size:10px; color:var(--text-muted);">${i.options}</span></span>
+                <span>${formatRp(i.price * i.qty)}</span>
             </div>
         `).join('');
+        
+        document.getElementById('detail-total').innerText = formatRp(o.total);
+        document.getElementById('order-detail-modal').style.display = 'flex';
     }
+
+    function closeDetailModal() { document.getElementById('order-detail-modal').style.display = 'none'; }
 
     switchTab('dapur');
 </script>
