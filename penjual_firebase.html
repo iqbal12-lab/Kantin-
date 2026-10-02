@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kantin Telkom - Dashboard Penjual</title>
+    <!-- Firebase Compatibility SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <style>
+        :root {
+            --primary: #E21937;
+            --primary-dark: #B80E26;
+            --bg-body: #1E272C;
+            --bg-app: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box; margin: 0; padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; color: var(--text-main);
+        }
+
+        #app {
+            width: 100%; max-width: 500px; background-color: var(--bg-app);
+            min-height: 100vh; position: relative; display: flex; flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); padding-bottom: 30px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; padding: 18px 20px; position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 20px rgba(226, 25, 55, 0.25);
+        }
+
+        .store-profile { display: flex; gap: 12px; align-items: center; }
+        .store-avatar { width: 46px; height: 46px; background: white; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
+        .store-title { font-size: 16px; font-weight: 800; }
+        .store-subtitle { font-size: 11px; opacity: 0.9; }
+
+        .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
+        .metric-card { background: white; border-radius: var(--radius); padding: 16px; border: 1px solid var(--border); }
+        .metric-card.full { grid-column: span 2; background: linear-gradient(135deg, #FEF2F2, #FFE4E6); border-color: #FECDD3; }
+        .metric-label { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+        .metric-value { font-size: 22px; font-weight: 800; color: var(--text-main); margin-top: 4px; }
+
+        .tab-bar { display: flex; background: #E2E8F0; margin: 0 16px 16px 16px; padding: 4px; border-radius: 12px; }
+        .tab-btn { flex: 1; padding: 10px; background: none; border: none; color: var(--text-muted); font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; }
+        .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+
+        .tab-content { display: none; padding: 0 16px; }
+        .tab-content.active { display: block; }
+
+        .order-card { background: white; border-radius: var(--radius); padding: 16px; margin-bottom: 14px; border: 1px solid var(--border); }
+        .status-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+        .status-diterima { background: #DBEAFE; color: #1E40AF; }
+        .status-diproses { background: #FEF3C7; color: #92400E; }
+        .status-siap { background: #D1FAE5; color: #065F46; }
+        .status-selesai { background: #F1F5F9; color: #475569; }
+
+        .order-items-box { background: #F8FAFC; border-radius: 10px; padding: 12px; margin: 12px 0; font-size: 12px; border: 1px solid var(--border); }
+
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; color: white; }
+        .btn-process { background: var(--warning); color: #78350F; }
+        .btn-ready { background: var(--success); color: white; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <header>
+        <div class="store-profile">
+            <div class="store-avatar">🍳</div>
+            <div>
+                <div class="store-title">Dashboard Dapur Tenant</div>
+                <div class="store-subtitle">Sistem Live Dapur (kantin-telu)</div>
+            </div>
+        </div>
+        <div style="background:#FEF3C7; color:#D97706; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:800;">★ 4.9</div>
+    </header>
+
+    <div class="metrics-grid">
+        <div class="metric-card full">
+            <div class="metric-label" style="color:var(--primary);">💰 Omset Terkumpul (Selesai)</div>
+            <div class="metric-value" id="stat-total-revenue" style="color:var(--primary);">Rp 0</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">📦 Pesanan Aktif</div>
+            <div class="metric-value" id="stat-active-orders">0</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">✅ Transaksi Selesai</div>
+            <div class="metric-value" id="stat-completed-orders">0</div>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" id="tab-btn-dapur" onclick="switchTab('dapur')">📥 Pesanan Masuk</button>
+        <button class="tab-btn" id="tab-btn-riwayat" onclick="switchTab('riwayat')">📜 Riwayat Omset</button>
+    </div>
+
+    <div class="tab-content active" id="tab-dapur">
+        <div id="active-orders-list">Menghubungkan ke server Firebase...</div>
+    </div>
+
+    <div class="tab-content" id="tab-riwayat">
+        <div id="history-orders-list">Belum ada transaksi selesai</div>
+    </div>
+</div>
+
+<script>
+    // ⚙️ FIREBASE CONFIG MILIK ANDA (kantin-telu) ⚙️
+    const firebaseConfig = {
+  apiKey: "AIzaSyDEfWlPocqoyTTLGkhertkIf8jXaaG86F8",
+  authDomain: "kantin-telu.firebaseapp.com",
+  databaseURL: "https://kantin-telu-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "kantin-telu",
+  storageBucket: "kantin-telu.firebasestorage.app",
+  messagingSenderId: "234300731911",
+  appId: "1:234300731911:web:f12bb7524b9f0748a8f0a2",
+  measurementId: "G-VGDM0BHH7T"
+};
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let onlineOrders = {};
+
+    function formatRp(num) { return 'Rp ' + (num || 0).toLocaleString('id-ID'); }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        document.getElementById(`tab-btn-${tabId}`).classList.add('active');
+        document.getElementById(`tab-${tabId}`).classList.add('active');
+
+        if(tabId === 'dapur') renderDapur();
+        if(tabId === 'riwayat') renderRiwayatOmset();
+    }
+
+    db.ref('orders').on('value', (snapshot) => {
+        onlineOrders = snapshot.val() || {};
+        updateMetrics();
+        renderDapur();
+        renderRiwayatOmset();
+    });
+
+    function updateMetrics() {
+        const all = Object.values(onlineOrders);
+        const completed = all.filter(o => o.status === 'SELESAI');
+        const active = all.filter(o => o.status !== 'SELESAI');
+        const totalRev = completed.reduce((sum, o) => sum + (o.total || 0), 0);
+
+        document.getElementById('stat-total-revenue').innerText = formatRp(totalRev);
+        document.getElementById('stat-active-orders').innerText = active.length;
+        document.getElementById('stat-completed-orders').innerText = completed.length;
+    }
+
+    function renderDapur() {
+        const container = document.getElementById('active-orders-list');
+        const keys = Object.keys(onlineOrders);
+        const activeKeys = keys.filter(k => onlineOrders[k].status !== 'SELESAI');
+
+        if(activeKeys.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">Belum ada pesanan masuk</div>`;
+            return;
+        }
+
+        container.innerHTML = activeKeys.map(key => {
+            const o = onlineOrders[key];
+            let actionBtn = '';
+
+            if(o.status === 'DITERIMA') {
+                actionBtn = `<button class="btn btn-process" onclick="updateOrderStatus('${key}', 'DIPROSES')">Terima & Mulai Masak 🍳</button>`;
+            } else if(o.status === 'DIPROSES') {
+                actionBtn = `<button class="btn btn-ready" onclick="updateOrderStatus('${key}', 'SIAP')">Tandai SIAP DIAMBIL (Bunyikan Alarm) 📢</button>`;
+            } else if(o.status === 'SIAP') {
+                actionBtn = `<div style="background:#FEF3C7; color:#92400E; padding:10px; text-align:center; border-radius:8px; font-size:12px; font-weight:800;">🔔 Alarm sedang berbunyi di HP Pembeli...</div>`;
+            }
+
+            return `
+                <div class="order-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="font-size:15px;">Order #${o.id}</strong>
+                            <div style="font-size:12px; font-weight:700; color:var(--primary); margin-top:2px;">👤 ${o.buyerName}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">${o.type} ${o.type==='Dine-in'?'(Meja #'+o.buyerTable+')':'(Bawa Pulang)'} • ${o.merchant}</div>
+                        </div>
+                        <span class="status-pill status-${o.status.toLowerCase()}">${o.status}</span>
+                    </div>
+
+                    <div class="order-items-box">
+                        ${(o.items || []).map(i => `• <b>${i.qty}x</b> ${i.name} <span style="color:var(--primary);">(${i.options})</span>`).join('<br>')}
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:12px;">
+                        <span>Total Pembayaran:</span>
+                        <strong style="color:var(--success);">${formatRp(o.total)}</strong>
+                    </div>
+
+                    ${actionBtn}
+                </div>
+            `;
+        }).join('');
+    }
+
+    function updateOrderStatus(key, newStatus) {
+        db.ref(`orders/${key}`).update({ status: newStatus });
+    }
+
+    function renderRiwayatOmset() {
+        const container = document.getElementById('history-orders-list');
+        const completed = Object.values(onlineOrders).filter(o => o.status === 'SELESAI');
+
+        if(completed.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">Belum ada transaksi selesai</div>`;
+            return;
+        }
+
+        container.innerHTML = completed.map(o => `
+            <div class="order-card" style="border-left:4px solid var(--success);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong>Order #${o.id} (${o.buyerName})</strong>
+                        <div style="font-size:11px; color:var(--text-muted);">${o.date} • ${o.type}</div>
+                    </div>
+                    <strong style="color:var(--success); font-size:15px;">+${formatRp(o.total)}</strong>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    switchTab('dapur');
+</script>
+</body>
+</html>
